@@ -1,8 +1,9 @@
-require("dotenv").config();
-const keys = require("./keys.js");
+require('dotenv').config();
+const fs = require('fs')
+const keys = require('./keys.js');
 const Spotify = require('node-spotify-api')
-const inquirer = require("inquirer");
-const axios = require("axios");
+const inquirer = require('inquirer');
+const axios = require('axios');
 const moment = require('moment');
 const spotify = new Spotify(keys.spotify);
 
@@ -17,16 +18,21 @@ const concertThis = () => {
       .then(function (res) {
         let data = res.data;
         console.log(`Here's a list of concerts and their locations:`)
+        console.log(data.length);
 
-        for (let i = 0; i < data.length; i++) {
-          let date = moment(data[i].datetime).format('MMM Do, YYYY [at] hh:mmA')
-          console.log(`
+        data.forEach(concert => {
+          let date = moment(concert.datetime).format('MMM Do, YYYY [at] hh:mmA')
+          return console.log(`
 ========================
 
-${data[i].venue.name} in ${data[i].venue.city}, ${data[i].venue.country}. Date: ${date}
+${concert.venue.name} in ${concert.venue.city}, ${concert.venue.country}. Date: ${date}
 `)
-        }
+        })
+
       })
+      .catch(function (err) {
+        console.log(err);
+      });
   })
 }
 
@@ -34,12 +40,64 @@ const movieThis = () => {
   inquirer.prompt({
     type: "input",
     message: "What movie are you looking for?",
-    name: "movie"
+    name: "movie",
+    default: "Mr. Nobody"
   }).then(function (res) {
-    axios.get(`http://www.omdbapi.com/?s=${res.movie}&apikey=trilogy`)
+
+    axios.get(`http://www.omdbapi.com/?t=${res.movie}&apikey=trilogy`)
       .then(function (res) {
-        console.log(res.data);
+        let data = res.data;
+        return console.log(`
+Title: ${data.Title}
+
+Year Released: ${data.Year}
+
+IMDB Rating: ${data.imdbRating}
+
+${data.Ratings[1].Source}: ${data.Ratings[1].Value}
+
+Country: ${data.Country}
+
+Available Languages: ${data.Language}
+
+Plot: ${data.Plot}
+
+Actors: ${data.Actors}
+          `)
       })
+      .catch(function (err) {
+        console.log(err);
+      });
+  })
+}
+
+const doThing = () => {
+  
+}
+
+const spotifyThis = () => {
+  inquirer.prompt({
+    type: "input",
+    message: "What song would you like to look up?",
+    name: "song",
+    default: "The Sign"
+  }).then(function (res) {
+    spotify.search({
+      type: 'track',
+      query: res.song
+    }).then(function (res) {
+      let data = res.tracks.items;
+      console.log(data)
+      data.forEach(songs => {
+        return console.log(`
+Artist(s): ${songs.artists[0].name}
+Song Name: ${songs.name}
+Preview URL: ${songs.preview_url}
+Album: ${songs.album.name}
+        
+        `);
+      })
+    })
   })
 }
 
