@@ -39,7 +39,7 @@
 * Bands In Town
 * OMDB
 
-# NPM packages and versions used
+## NPM packages and versions used
 * axios: ^0.18.0
 * dotenv: ^7.0.0
 * inquirer: ^6.3.1
