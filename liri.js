@@ -162,36 +162,3 @@ Album: ${songs.album.name}
     })
   })
 }
-
-function spotifyThisSong(result) {
-
-  spotify.search({
-      type: 'track',
-      query: result
-    })
-    .then(function (response) {
-
-      console.log(response);
-      if (!response) {
-
-        return console.log("The sign by Ace of Base")
-      } else if (response) {
-
-        let respSong = response.tracks.items;
-        console.log(respSong)
-        respSong.forEach(respSong => {
-          console.log(`
-            ${respSong.name}
-          `)
-
-        })
-
-      }
-    })
-    .catch(function (err) {
-      console.log(err);
-
-    });
-}
-
-spotifyThisSong('In Bloom');
