@@ -1,6 +1,6 @@
 # liri-bot
 
-#### LIRI is like iPhone's SIRI, however, while SIRI is a Speech Interpretation and Recognition Interface, LIRI is a Language Interpretation and Recognition Interface. LIRI is be a command line node app that takes in on of four parameters and returns the relative data.
+#### LIRI is like iPhone's SIRI, however, while SIRI is a Speech Interpretation and Recognition Interface, LIRI is a Language Interpretation and Recognition Interface. LIRI is be a command line node app that prompts users to choose 4 different commands and give input for each command.
 
 ## Initial load of LIRI
 #### Liri gives you commands to choose from. 
